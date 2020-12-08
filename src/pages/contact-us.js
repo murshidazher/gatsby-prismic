@@ -1,8 +1,9 @@
 import React from 'react';
-import {graphql} from 'gatsby';
+import {graphql, navigate} from 'gatsby';
 import Layout from '../components/layout';
 import styled from 'styled-components';
 import RichText from '../components/richText';
+import { useForm } from '@formcarry/react';
 
 export const query = graphql`
 {
@@ -65,7 +66,16 @@ const ContentWrapper = styled.section`
 `
 
 const ContactUs = (props) => {
-    console.log(props);
+
+    const {state, submit} = useForm({
+        id: '2lExiFvZpR'
+    });
+
+    // Success message
+    if (state.submitted) {
+        navigate('/contact-success');
+    }
+ 
     return (
         <Layout>
             <ContentWrapper>
@@ -75,14 +85,13 @@ const ContactUs = (props) => {
             <Form 
                 name="contact-us"
                 method="POST"
-                data-netlify="true"
-                action="/contact-success">
-                    <input type="hidden" name="form-name" value="contact-us" />
+                onSubmit={submit}>
                 {props.data.prismic.allContact_pages.edges[0].node.form_fields.map((field, i) => {
                     if(field.field_type === 'textarea'){
                         return (
                             <div key={i}>
                                 <textarea 
+                                    id={field.field_name}
                                     name={field.field_name}
                                     required={field.required === 'Yes'}
                                     placeholder={field.field_name} />
@@ -92,6 +101,7 @@ const ContactUs = (props) => {
                         return (
                             <div key={i}>
                                 <input 
+                                    id={field.field_name}
                                     name={field.field_name}
                                     placeholder={field.field_name}
                                     required={field.required === 'Yes'}

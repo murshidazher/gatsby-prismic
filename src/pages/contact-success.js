@@ -5,7 +5,7 @@ const ContactSuccess = () => {
     return (
         <Layout>
             <h1>
-                Thanks for getting in touch!
+                Thank you! We received your submission.
             </h1>
         </Layout>
     )
